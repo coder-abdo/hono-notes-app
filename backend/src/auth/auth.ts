@@ -4,6 +4,7 @@ import { validator } from "hono/validator";
 import jwt from "jsonwebtoken";
 import { signInSchema, signUpSchema } from "../schema/auth";
 import { prisma } from "../prismaClient";
+import { authenticate } from "../middlewares/authMiddleware";
 const app = new Hono();
 
 app.post(
@@ -91,7 +92,10 @@ app.post(
       secure: true,
     });
     c.header("Authorization", accessToken);
-    return c.json({ message: "sign success" }, 201);
+    return c.json(
+      { message: "sign success", token: accessToken, user: existingUser },
+      201,
+    );
   },
 );
 // get accessToken from refresh token
@@ -110,5 +114,9 @@ app.post("/refresh", async (c) => {
   );
   c.header("Authorization", accessToken);
   c.json({ message: "success token" }, 201);
+});
+app.get("/logout", authenticate, (c) => {
+  deleteCookie(c, "token");
+  return c.json({ message: "success logout" }, 200);
 });
 export default app;

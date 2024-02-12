@@ -3,12 +3,12 @@ import type { TUser, loginDTO, signupDTO } from '@/types'
 import { loginAction, logoutAction, signupAction } from '@/api/actions/auth'
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: null as TUser | null,
+    user: JSON.parse(localStorage.getItem('user') as string) || (null as TUser | null),
     error: '' as string,
     token: sessionStorage.getItem('token') || (null as string | null)
   }),
   getters: {
-    isAuth: (state) => !!state.user
+    isAuthenticated: (state) => !!state.user
   },
   actions: {
     signup(signupDto: signupDTO) {
@@ -32,10 +32,12 @@ export const useAuthStore = defineStore('auth', {
           if (res.error) {
             this.error = res.error
           } else {
+            console.log(res)
             this.error = ''
             this.user = res.user
             this.token = res.token
             sessionStorage.setItem('token', res.token)
+            localStorage.setItem('user', JSON.stringify(res.user))
           }
         })
         .catch((err) => console.log(err))
@@ -50,8 +52,9 @@ export const useAuthStore = defineStore('auth', {
             this.token = null
             this.user = null
             sessionStorage.removeItem('token')
-            console.log(res)
+            localStorage.removeItem('user')
           }
+          return res
         })
         .catch((err) => {
           if (err instanceof Error) this.error = err.message

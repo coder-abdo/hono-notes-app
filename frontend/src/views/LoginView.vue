@@ -2,13 +2,10 @@
 import { RouterLink, useRouter } from 'vue-router'
 import { useNotification } from '@kyvg/vue3-notification'
 import { useForm } from '@volverjs/form-vue'
-import { z } from 'zod'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
-const loginSchema = z.object({
-  email: z.string().email({ message: 'invalid email' }),
-  password: z.string().min(6, { message: 'password must be at least 6 characters' })
-})
+import { loginSchema } from '@/schemas/auth'
+
 const authStore = useAuthStore()
 const { login } = authStore
 const { error } = storeToRefs(authStore)
@@ -30,7 +27,7 @@ const onSubmit = (formData: { email: string; password: string }) => {
 }
 </script>
 <template>
-  <h1 class="text-3xl font-bold text-red-500 text-center">welocme back</h1>
+  <h1 class="text-3xl capitalize font-bold text-sky-500 text-center">welocme back</h1>
   <span v-if="error" class="text-red-500">{{ error }}></span>
   <VvForm
     @submit="onSubmit"
@@ -52,8 +49,22 @@ const onSubmit = (formData: { email: string; password: string }) => {
     />
 
     <div class="flex gap-4 items-center mt-4">
-      <button class="bg-black capitalize text-white text-sm px-6 py-2">login</button>
-      <RouterLink to="/signup">create account</RouterLink>
+      <button
+        class="rounded bg-sky-500 capitalize text-white text-sm px-6 py-2 hover:text-sky-500 hover:bg-white border border-sky-500 transition-colors"
+      >
+        login
+      </button>
+      <RouterLink to="/signup" class="hover:text-sky-500 capitalize transition-colors"
+        >create account</RouterLink
+      >
     </div>
   </VvForm>
 </template>
+<style>
+input {
+  @apply px-6 py-3 text-sm placeholder-gray-600 border border-gray-400 focus:border-sky-500 rounded;
+}
+label {
+  @apply text-sky-500;
+}
+</style>

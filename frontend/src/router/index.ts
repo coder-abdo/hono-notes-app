@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '@/views/HomeView.vue'
 import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

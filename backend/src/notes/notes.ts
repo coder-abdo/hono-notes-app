@@ -3,7 +3,6 @@ import { prisma } from "../prismaClient";
 import { authenticate } from "../middlewares/authMiddleware";
 import { validator } from "hono/validator";
 import { noteShema } from "../schema/note/noteShema";
-import { getCookie } from "hono/cookie";
 
 const app = new Hono();
 // get all notes

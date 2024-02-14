@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useNotification } from '@kyvg/vue3-notification'
 import { useAuthStore } from '@/stores/auth'
 import IconLogo from '@/components/icons/IconLogo.vue'
-const { user, token, error } = storeToRefs(useAuthStore())
+const { user, error } = storeToRefs(useAuthStore())
 const { logout } = useAuthStore()
 const { notify } = useNotification()
 const router = useRouter()
@@ -13,18 +13,19 @@ const handleLogout = () => {
   if (error.value) {
     notify({ text: error.value, type: 'error' })
   } else {
-    notify({ text: 'Logged out', type: 'success' })
-    router.push('/login')
+    notify({ text: 'Successfully Logged out', type: 'success' })
+    router.push({ name: 'login', replace: true })
   }
 }
 </script>
 <template>
-  <nav class="flex px-2 justify-between items-center shadow-sm py-4 sticky top-0">
+  <nav
+    class="flex px-2 justify-between items-center shadow-sm py-4 sticky top-0 left-0 right-0 bg-white"
+  >
     <RouterLink to="/">
       <IconLogo />
     </RouterLink>
-    <div class="flex gap-4 capitalize" v-if="token">
-      <RouterLink class="hover:text-sky-500 transition-colors" to="/about">About</RouterLink>
+    <div class="flex gap-4 capitalize" v-if="user">
       <RouterLink class="hover:text-sky-500 transition-colors" to="/profile">{{
         user?.name
       }}</RouterLink>

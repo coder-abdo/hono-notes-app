@@ -19,7 +19,6 @@ export const useAuthStore = defineStore('auth', {
           } else {
             this.error = ''
           }
-          console.log(res)
         })
         .catch((err) => {
           if (err instanceof Error) this.error = err.message
@@ -32,7 +31,6 @@ export const useAuthStore = defineStore('auth', {
           if (res.error) {
             this.error = res.error
           } else {
-            console.log(res)
             this.error = ''
             this.user = res.user
             this.token = res.token
@@ -54,7 +52,6 @@ export const useAuthStore = defineStore('auth', {
             sessionStorage.removeItem('token')
             localStorage.removeItem('user')
           }
-          return res
         })
         .catch((err) => {
           if (err instanceof Error) this.error = err.message

@@ -19,4 +19,8 @@ type signupDTO = {
   password: string
   confirmPassword: string
 }
-export type { TUser, TNote, loginDTO, signupDTO }
+type createNoteDTO = {
+  title: string
+  content: string
+}
+export type { TUser, TNote, loginDTO, signupDTO, createNoteDTO }

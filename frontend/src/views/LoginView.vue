@@ -20,7 +20,7 @@ const onSubmit = (formData: { email: string; password: string }) => {
     notify({ text: error.value, type: 'error' })
   } else {
     notify({ text: 'login success', type: 'success' })
-    router.push('/')
+    router.push({ path: '/', replace: true })
   }
   formData.email = ''
   formData.password = ''

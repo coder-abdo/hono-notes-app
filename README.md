@@ -14,3 +14,7 @@ This app is a CRUD application with authentication using JWT
   2. Tailwindcss (for styling), ps: may I use another css library will see
 
 I'm trying to learn Hono and Prisma, so this is what I accomplish so far
+
+I used Vue, Tailwindcss, and Pinia to handle the frontend.
+
+finally, I wanna try do unit and E2E testing.

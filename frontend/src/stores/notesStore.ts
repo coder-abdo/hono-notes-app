@@ -17,7 +17,7 @@ export const useNotesStore = defineStore('notes', () => {
   function getAllNotes() {
     getAllNotesAction(authStore.token as string)
       .then((res) => {
-        notes.value = res.data
+        notes.value = res.notes
         error.value = ''
       })
       .catch((err) => {

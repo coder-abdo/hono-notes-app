@@ -12,6 +12,9 @@ app.get("/all", authenticate, async (c) => {
     where: {
       userId: userId as number,
     },
+    include: {
+      user: true,
+    },
   });
   return c.json({ notes: userNotes }, 200);
 });
@@ -35,7 +38,7 @@ app.post(
     if (!user) return c.json({ error: "User not found" }, 404);
     const note = await prisma.note.create({
       data: {
-        userId: 1,
+        userId: +userId,
         title,
         content,
       },

@@ -1,21 +1,16 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useNotification } from '@kyvg/vue3-notification'
-import { useNotesStore } from '@/stores/notesStore'
+import type { TNote } from '@/types'
 import NoteComponent from '../note/NoteComponent.vue'
-const { notify } = useNotification()
-const notesStore = useNotesStore()
-const { getAllNotes } = useNotesStore()
-const { error, notes } = storeToRefs(notesStore)
-onMounted(async () => {
-  await getAllNotes()
-  notify({ type: 'success', text: 'Notes loaded' })
-})
+type Props = {
+  notes: TNote[]
+  error: string
+}
+const props = defineProps<Props>()
 </script>
 
 <template>
   <div class="flex flex-wrap gap-3">
-    <NoteComponent v-for="note in notes" :key="note.id" :note="note" />
+    <span v-if="props.error">{{ props.error }}</span>
+    <NoteComponent v-for="note in props.notes" :key="note.id" :note="note" />
   </div>
 </template>

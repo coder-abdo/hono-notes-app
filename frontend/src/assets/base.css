@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input {
+  @apply px-4 my-4 py-2 border border-gray-300 rounded-md focus:border-sky-500;
+}
+label {
+  @apply text-lg font-medium text-sky-500 capitalize;
+}
+textarea {
+  @apply px-4 mt-4 py-2 border border-gray-300 rounded-md focus:border-sky-500;
+}

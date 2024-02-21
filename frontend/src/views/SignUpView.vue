@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { FormKit } from '@formkit/vue'
 import { useNotification } from '@kyvg/vue3-notification'
-import { useForm } from '@volverjs/form-vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import { signupSchema } from '@/schemas/auth'
 const { signup } = useAuthStore()
 const { error } = storeToRefs(useAuthStore())
 
-const { VvForm, VvFormField } = useForm(signupSchema, {
-  lazyLoad: true
-})
 const { notify } = useNotification()
 const router = useRouter()
 const onSubmit = (formData: {
@@ -32,49 +28,53 @@ const onSubmit = (formData: {
   }
 }
 </script>
-<template>
-  <h1 class="text-3xl capitalize font-bold text-sky-500 text-center">create your account</h1>
-  <span v-if="error" class="text-red-500">{{ error }}></span>
-  <VvForm
-    @submit="onSubmit"
-    class="flex flex-col justify-center gap-4 w-full h-screen mx-auto max-w-[500px]"
-  >
-    <VvFormField
-      type="text"
-      label="Name"
-      placeholder="Enter your Name"
-      name="name"
-      class="flex flex-col gap-2"
-    />
-    <VvFormField
-      type="email"
-      label="Email"
-      placeholder="Enter your Email"
-      name="email"
-      class="flex flex-col gap-2"
-    />
 
-    <VvFormField
-      type="password"
-      placeholder="Enter your Password"
-      name="password"
-      label="Password"
+<template>
+  <FormKit type="form" submit-label="Register" @submit="onSubmit" :actions="false">
+    <h1 class="text-2xl font-bold mb-2">Register!</h1>
+    <FormKit
+      type="text"
+      name="name"
+      label="Your name"
+      placeholder="Jane Doe"
+      help="What do people call you?"
+      validation="required"
     />
-    <VvFormField
-      type="password"
-      placeholder="Enter your Confirm Password"
-      name="confirmPassword"
-      label="Confirm Password"
+    <FormKit
+      type="text"
+      name="email"
+      label="Your email"
+      placeholder="jane@example.com"
+      help="What email should we use?"
+      validation="required|email"
     />
+    <div class="double">
+      <FormKit
+        type="password"
+        name="password"
+        label="Password"
+        validation="required|length:6|matches:/[^a-zA-Z]/"
+        :validation-messages="{
+          matches: 'Please include at least one symbol'
+        }"
+        placeholder="Your password"
+        help="Choose a password"
+      />
+      <FormKit
+        type="password"
+        name="confirmPassword"
+        label="Confirm password"
+        placeholder="Confirm password"
+        validation="required|confirm"
+        help="Confirm your password"
+      />
+    </div>
+
     <div class="flex gap-4 items-center mt-4">
-      <button
-        class="rounded bg-sky-500 capitalize text-white text-sm px-6 py-2 hover:text-sky-500 hover:bg-white border border-sky-500 transition-colors"
-      >
-        sign up
-      </button>
+      <FormKit type="submit" label="Register" />
       <RouterLink to="/login" class="hover:text-sky-500 capitalize transition-colors"
         >already have an account
       </RouterLink>
     </div>
-  </VvForm>
+  </FormKit>
 </template>

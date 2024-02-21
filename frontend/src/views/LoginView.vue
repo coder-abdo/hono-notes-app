@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import { RouterLink, useRouter } from 'vue-router'
 import { useNotification } from '@kyvg/vue3-notification'
-import { useForm } from '@volverjs/form-vue'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
-import { loginSchema } from '@/schemas/auth'
+import { FormKit } from '@formkit/vue'
 
 const authStore = useAuthStore()
 const { login } = authStore
 const { error } = storeToRefs(authStore)
-const { VvForm, VvFormField } = useForm(loginSchema, {
-  lazyLoad: true
-})
+
 const { notify } = useNotification()
 const router = useRouter()
 const onSubmit = (formData: { email: string; password: string }) => {
@@ -27,44 +24,42 @@ const onSubmit = (formData: { email: string; password: string }) => {
 }
 </script>
 <template>
-  <h1 class="text-3xl capitalize font-bold text-sky-500 text-center">welocme back</h1>
-  <span v-if="error" class="text-red-500">{{ error }}></span>
-  <VvForm
+  <FormKit
+    type="form"
+    submit-label="Login"
     @submit="onSubmit"
+    :actions="false"
     class="flex flex-col justify-center gap-4 w-full h-screen mx-auto max-w-[500px]"
   >
-    <VvFormField
-      type="email"
-      label="Email"
-      placeholder="Enter your Email"
+    <h1 class="text-3xl capitalize font-bold text-sky-500 text-center">welocme back</h1>
+    <span v-if="error" class="text-red-500">{{ error }}></span>
+
+    <FormKit
+      type="text"
       name="email"
-      class="flex flex-col gap-2"
+      label="Your email"
+      placeholder="jane@example.com"
+      help="What email should we use?"
+      validation="required|email"
     />
 
-    <VvFormField
+    <FormKit
       type="password"
-      placeholder="Enter your Password"
       name="password"
       label="Password"
+      validation="required|length:6"
+      :validation-messages="{
+        matches: 'Please include at least one symbol'
+      }"
+      placeholder="Your password"
+      help="Choose a password"
     />
 
     <div class="flex gap-4 items-center mt-4">
-      <button
-        class="rounded bg-sky-500 capitalize text-white text-sm px-6 py-2 hover:text-sky-500 hover:bg-white border border-sky-500 transition-colors"
-      >
-        login
-      </button>
+      <FormKit type="submit" label="Login" />
       <RouterLink to="/signup" class="hover:text-sky-500 capitalize transition-colors"
         >create account</RouterLink
       >
     </div>
-  </VvForm>
+  </FormKit>
 </template>
-<style>
-input {
-  @apply px-6 py-3 text-sm placeholder-gray-600 border border-gray-400 focus:border-sky-500 rounded;
-}
-label {
-  @apply text-sky-500;
-}
-</style>

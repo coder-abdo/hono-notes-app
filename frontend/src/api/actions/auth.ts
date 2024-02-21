@@ -1,8 +1,9 @@
+import { BASE_URL } from '@/constants'
 import type { loginDTO, signupDTO } from '@/types'
 
 const signupAction = async (signupDto: signupDTO) => {
   try {
-    const res = await fetch('http://localhost:3000/auth/signup', {
+    const res = await fetch(`${BASE_URL}/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -20,7 +21,7 @@ const signupAction = async (signupDto: signupDTO) => {
 // login
 const loginAction = async (loginDto: loginDTO) => {
   try {
-    const res = await fetch('http://localhost:3000/auth/signin', {
+    const res = await fetch(`${BASE_URL}/auth/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -36,7 +37,7 @@ const loginAction = async (loginDto: loginDTO) => {
 // logout
 const logoutAction = async (token: string) => {
   try {
-    const data = await fetch('http://localhost:3000/auth/logout', {
+    const data = await fetch(`${BASE_URL}/auth/logout`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

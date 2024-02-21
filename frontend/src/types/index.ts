@@ -8,6 +8,7 @@ type TNote = {
   id: number
   title: string
   content: string
+  user: TUser
 }
 type loginDTO = {
   email: string

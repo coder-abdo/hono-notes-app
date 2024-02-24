@@ -2,12 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+form {
+  @apply max-w-[500px] w-full flex flex-col;
+}
 input {
-  @apply px-4 my-4 py-2 border border-gray-300 rounded-md focus:border-sky-500;
+  @apply px-4 my-4 py-2 border border-gray-300 rounded-md focus:border-sky-500 w-full;
 }
 label {
   @apply text-lg font-medium text-sky-500 capitalize;
 }
 textarea {
-  @apply px-4 mt-4 py-2 border border-gray-300 rounded-md focus:border-sky-500;
+  @apply px-4 mt-4 py-2 border border-gray-300 rounded-md focus:border-sky-500 w-full;
+}
+button[type='submit'] {
+  @apply bg-sky-500 text-white font-medium px-4 py-2 rounded-md hover:bg-sky-600 mt-4;
 }

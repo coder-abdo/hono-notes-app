@@ -8,7 +8,7 @@ const { user } = storeToRefs(store)
 </script>
 
 <template>
-  <main class="px-4">
+  <main class="px-4 flex flex-col">
     <HomeUser v-if="user" :user="user" />
     <HomeGuest v-else />
   </main>

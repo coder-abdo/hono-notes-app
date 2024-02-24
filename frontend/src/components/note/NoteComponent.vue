@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { onUpdated } from 'vue'
+import { watch } from 'vue'
+import { useNotification } from '@kyvg/vue3-notification'
 import { useNotesStore } from '@/stores/notesStore'
 import type { TNote } from '@/types'
 import UpdateIcon from '@/components/icons/UpdateIcon.vue'
@@ -9,17 +9,15 @@ import DeleteIcon from '@/components/icons/DeleteIcon.vue'
 type Props = {
   note: TNote
 }
-const { deleteNote, getAllNotes } = useNotesStore()
+const { notify } = useNotification()
+const { deleteNote, getNotes } = useNotesStore()
 const props = defineProps<Props>()
 const handleDelete = (id: string) => {
   deleteNote(id)
-  getAllNotes()
+  notify({ text: `Note with id ${id} deleted`, type: 'success' })
 }
-onMounted(() => {
-  getAllNotes()
-})
-onUpdated(() => {
-  console.log('deleted')
+watch(getNotes, () => {
+  console.log(`note deleted`)
 })
 </script>
 <template>
